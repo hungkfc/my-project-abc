@@ -19,23 +19,28 @@ function UpdateBook() {
         title: '', author_id: '', published_year: '', genres: [], synopsis: '', cover_image: null
     });
 
-    useEffect(() => {
-        const loadData = async () => {
-            try {
-                const [authRes, bookRes] = await Promise.all([
-                    axios.get('http://your-api-url.com/api/authors'),
-                    axios.get(`http://your-api-url.com/api/books/${id}`)
-                ]);
-                setAuthors(authRes.data);
-                setBookData({ ...bookRes.data, cover_image: null });
-                setFetching(false);
-            } catch (err) {
-                console.error(err);
-                navigate('/book');
-            }
-        };
-        loadData();
-    }, [id, navigate]);
+    // useEffect(() => {
+    //     const loadData = async () => {
+    //         try {
+    //             const [authRes, bookRes] = await Promise.all([
+    //                 axios.get('http://your-api-url.com/api/authors'),
+    //                 axios.get(`http://your-api-url.com/api/books/${id}`)
+    //             ]);
+    //             setAuthors(authRes.data);
+    //             setBookData({ ...bookRes.data, cover_image: null });
+    //             setFetching(false);
+    //         } catch (err) {
+    //             console.error(err);
+    //             navigate('/book');
+    //         }
+    //     };
+    //     loadData();
+    // }, [id, navigate]);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setBookData({ ...bookData, [name]: value });
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -62,7 +67,7 @@ function UpdateBook() {
         }
     };
 
-    if (fetching) return <Box sx={{ display: 'flex', justifyContent: 'center', mt: 10 }}><CircularProgress /></Box>;
+    // if (fetching) return <Box sx={{ display: 'flex', justifyContent: 'center', mt: 10 }}><CircularProgress /></Box>;
 
     return (
         <Container maxWidth="md" sx={{ mt: 4, mb: 4 }}>
@@ -73,11 +78,18 @@ function UpdateBook() {
 
                 <form onSubmit={handleSubmit}>
                     <Grid container spacing={3}>
-                        <Grid item xs={12}>
-                            <TextField fullWidth label="Tiêu đề sách" name="title" value={bookData.title} onChange={(e) => setBookData({ ...bookData, title: e.target.value })} required />
+                        <Grid item size={{ xs: 12 }}>
+                            <TextField
+                                fullWidth
+                                label="Tiêu đề sách"
+                                name="title"
+                                value={bookData.title}
+                                onChange={(e) => setBookData({ ...bookData, title: e.target.value })} required
+
+                            />
                         </Grid>
 
-                        <Grid item xs={12} sm={6}>
+                        <Grid item size={{ xs: 12, sm: 6 }}>
                             <FormControl fullWidth>
                                 <InputLabel>Tác giả</InputLabel>
                                 <Select name="author_id" value={bookData.author_id} label="Tác giả" onChange={(e) => setBookData({ ...bookData, author_id: e.target.value })}>
@@ -86,11 +98,18 @@ function UpdateBook() {
                             </FormControl>
                         </Grid>
 
-                        <Grid item xs={12} sm={6}>
-                            <TextField fullWidth label="Năm xuất bản" name="published_year" type="number" value={bookData.published_year} onChange={(e) => setBookData({ ...bookData, published_year: e.target.value })} />
+                        <Grid item size={{ xs: 12, sm: 6 }}>
+                            <TextField
+                                fullWidth
+                                label="Năm xuất bản"
+                                name="published_year"
+                                type="number"
+                                value={bookData.published_year}
+                                onChange={(e) => setBookData({ ...bookData, published_year: e.target.value })}
+                            />
                         </Grid>
 
-                        <Grid item xs={12}>
+                        <Grid item size={{ xs: 12 }}>
                             <FormControl fullWidth>
                                 <InputLabel>Thể loại</InputLabel>
                                 <Select
@@ -109,15 +128,19 @@ function UpdateBook() {
                             </FormControl>
                         </Grid>
 
-                        <Grid item xs={12}>
+                        <Grid item size={{ xs: 12 }}>
                             <Button variant="outlined" component="label" fullWidth startIcon={<CloudUpload />} color="secondary">
                                 Đổi ảnh bìa
                                 <input type="file" hidden accept="image/*" onChange={(e) => setBookData({ ...bookData, cover_image: e.target.files[0] })} />
                             </Button>
                         </Grid>
 
-                        <Grid item xs={12} sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end', mt: 2 }}>
-                            <Button onClick={() => navigate('/book')}>Hủy</Button>
+                        <Grid item size={{ xs: 12 }}>
+                            <TextField fullWidth label="Tóm tắt" name="synopsis" multiline rows={4} onChange={handleChange} />
+                        </Grid>
+
+                        <Grid item size={{ xs: 12 }} sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end', mt: 2 }}>
+                            <Button startIcon={<ArrowBack />} onClick={() => navigate('/book')}>Hủy</Button>
                             <Button type="submit" variant="contained" color="secondary" disabled={loading} startIcon={<Update />}>
                                 Lưu Thay Đổi
                             </Button>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Button } from 'react-bootstrap';
 
@@ -24,9 +25,9 @@ function Navigation() {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
-                            <Nav.Link href="/home">Home</Nav.Link>
-                            <Nav.Link href="/author">Author</Nav.Link>
-                            <Nav.Link href="/book">Book</Nav.Link>
+                            <Nav.Link as={NavLink} to="/home">Home</Nav.Link>
+                            <Nav.Link as={NavLink} to="/author">Author</Nav.Link>
+                            <Nav.Link as={NavLink} to="/book">Book</Nav.Link>
                         </Nav>
                         <Navbar.Collapse className="justify-content-end">
                             <Navbar.Text>

@@ -69,24 +69,46 @@ function CreateBook() {
 
                 <form onSubmit={handleSubmit}>
                     <Grid container spacing={3}>
-                        <Grid item xs={12}>
-                            <TextField fullWidth label="Tiêu đề sách" name="title" required onChange={handleChange} />
+                        <Grid item size={{ xs: 12 }}>
+                            <TextField
+                                fullWidth
+                                label="Tiêu đề sách"
+                                name="title"
+                                required
+                                onChange={handleChange}
+                                sx={{
+                                    "& .MuiFormLabel-asterisk": {
+                                        color: "red",
+                                    },
+                                }}
+                            />
                         </Grid>
-
-                        <Grid item xs={12} sm={6}>
-                            <FormControl fullWidth required>
-                                <InputLabel>Tác giả</InputLabel>
-                                <Select name="author_id" value={bookData.author_id} label="Tác giả" onChange={handleChange}>
-                                    {authors.map(a => <MenuItem key={a.id} value={a.id}>{a.name}</MenuItem>)}
+                        <Grid item size={{ xs: 12 }}>
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-select-small-label">Tác giả</InputLabel>
+                                <Select
+                                    labelId="demo-select-small-label"
+                                    id="demo-select-small"
+                                    // value={age}
+                                    label="Tác giả"
+                                    onChange={handleChange}
+                                >
+                                    {/* {authors.map(a => <MenuItem key={a.id} value={a.id}>{a.name}</MenuItem>)} */}
+                                    <MenuItem value="">
+                                        <em>None</em>
+                                    </MenuItem>
+                                    <MenuItem value={10}>Ten</MenuItem>
+                                    <MenuItem value={20}>Twenty</MenuItem>
+                                    <MenuItem value={30}>Thirty</MenuItem>
                                 </Select>
                             </FormControl>
                         </Grid>
 
-                        <Grid item xs={12} sm={6}>
+                        <Grid item size={{ xs: 12 }}>
                             <TextField fullWidth label="Năm xuất bản" name="published_year" type="number" onChange={handleChange} />
                         </Grid>
 
-                        <Grid item xs={12}>
+                        <Grid item size={{ xs: 12 }}>
                             <FormControl fullWidth>
                                 <InputLabel>Thể loại</InputLabel>
                                 <Select
@@ -105,18 +127,18 @@ function CreateBook() {
                             </FormControl>
                         </Grid>
 
-                        <Grid item xs={12}>
+                        <Grid item size={{ xs: 12 }}>
                             <Button variant="outlined" component="label" fullWidth startIcon={<CloudUpload />}>
                                 {bookData.cover_image ? bookData.cover_image.name : "Tải lên ảnh bìa sách"}
                                 <input type="file" hidden accept="image/*" onChange={(e) => setBookData({ ...bookData, cover_image: e.target.files[0] })} />
                             </Button>
                         </Grid>
 
-                        <Grid item xs={12}>
+                        <Grid item size={{ xs: 12 }}>
                             <TextField fullWidth label="Tóm tắt" name="synopsis" multiline rows={4} onChange={handleChange} />
                         </Grid>
 
-                        <Grid item xs={12} sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end' }}>
+                        <Grid item size={{ xs: 12 }} sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end' }}>
                             <Button startIcon={<ArrowBack />} onClick={() => navigate('/book')}>Hủy</Button>
                             <Button type="submit" variant="contained" disabled={loading} startIcon={loading ? <CircularProgress size={20} /> : <Save />}>
                                 Lưu Sách
@@ -125,7 +147,7 @@ function CreateBook() {
                     </Grid>
                 </form>
             </Paper>
-        </Container>
+        </Container >
     );
 }
 

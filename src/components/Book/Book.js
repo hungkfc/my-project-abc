@@ -45,17 +45,17 @@ function Book() {
         <div>
             <h1>Book List</h1>
             <Button href='/book/create' variant="contained">Create Book</Button>
-            <TableContainer component={Paper}>
+            <TableContainer component={Paper} sx={{ mt: 2 }}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                    <TableHead>
+                    <TableHead sx={{ background: '#f5f5f5' }}>
                         <TableRow>
-                            <TableCell>Tiêu đề sách</TableCell>
-                            <TableCell align="right">Tác giả</TableCell>
-                            <TableCell align="right">Năm xuất bản</TableCell>
-                            <TableCell align="right">Thể loại</TableCell>
-                            <TableCell align="right">Ảnh bìa</TableCell>
-                            <TableCell align="right">Tóm tắt nội dung</TableCell>
-                            <TableCell align="right">Actions</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Tiêu đề sách</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Tác giả</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Năm xuất bản</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Thể loại</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Ảnh bìa</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Tóm tắt nội dung</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Actions</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -67,12 +67,12 @@ function Book() {
                                 <TableCell component="th" scope="row">
                                     {row.name}
                                 </TableCell>
-                                <TableCell align="right">{row.calories}</TableCell>
+                                <TableCell align="left">{row.calories}</TableCell>
                                 <TableCell align="right">{row.fat}</TableCell>
-                                <TableCell align="right">{row.carbs}</TableCell>
-                                <TableCell align="right">{row.protein}</TableCell>
-                                <TableCell align="right">{row.protein}</TableCell>
-                                <TableCell align="right">
+                                <TableCell align="left">{row.carbs}</TableCell>
+                                <TableCell align="left">{row.protein}</TableCell>
+                                <TableCell align="left">{row.protein}</TableCell>
+                                <TableCell align="center">
                                     <Button onClick={() => handleUpdate(row.id)} variant="contained" size="small">
                                         Edit
                                     </Button>

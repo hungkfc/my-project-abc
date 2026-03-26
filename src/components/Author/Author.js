@@ -44,16 +44,16 @@ function Author() {
         <div>
             <h1>Author List</h1>
             <Button href='/author/create' variant="contained">Create Author</Button>
-            <TableContainer component={Paper}>
+            <TableContainer component={Paper} sx={{ mt: 2 }}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                    <TableHead>
+                    <TableHead sx={{ background: '#f5f5f5' }}>
                         <TableRow>
-                            <TableCell>Dessert (100g serving)</TableCell>
-                            <TableCell align="right">Calories</TableCell>
-                            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-                            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-                            <TableCell align="right">Protein&nbsp;(g)</TableCell>
-                            <TableCell align="right">Actions</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Tên tác giả</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Năm sinh</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Quốc tịch</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Ảnh</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Tiểu sử</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Actions</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -66,10 +66,10 @@ function Author() {
                                     {row.name}
                                 </TableCell>
                                 <TableCell align="right">{row.calories}</TableCell>
-                                <TableCell align="right">{row.fat}</TableCell>
+                                <TableCell align="left">{row.fat}</TableCell>
                                 <TableCell align="right">{row.carbs}</TableCell>
-                                <TableCell align="right">{row.protein}</TableCell>
-                                <TableCell align="right">
+                                <TableCell align="left">{row.protein}</TableCell>
+                                <TableCell align="center">
                                     <Button onClick={() => handleUpdate(row.id)} variant="contained" size="small">
                                         Edit
                                     </Button>

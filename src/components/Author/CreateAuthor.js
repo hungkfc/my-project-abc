@@ -84,9 +84,7 @@ function CreateAuthor() {
 
                 <form onSubmit={handleSubmit}>
                     <Grid container spacing={3}>
-
-                        {/* Khu vực Upload Ảnh & Preview */}
-                        <Grid item xs={12} display="flex" flexDirection="column" alignItems="center" mb={2}>
+                        <Grid item size={{ xs: 4 }} display="flex" flexDirection="column" alignItems="center" mb={2}>
                             <Box position="relative">
                                 <Avatar
                                     src={preview}
@@ -103,7 +101,6 @@ function CreateAuthor() {
                                 )}
                             </Box>
                             <Button
-                                variant="outlined"
                                 component="label"
                                 startIcon={<PhotoCamera />}
                                 size="small"
@@ -113,59 +110,62 @@ function CreateAuthor() {
                             </Button>
                         </Grid>
 
-                        {/* Tên Tác Giả */}
-                        <Grid item xs={12}>
-                            <TextField
-                                fullWidth
-                                label="Tên đầy đủ"
-                                name="name"
-                                required
-                                variant="filled"
-                                onChange={handleChange}
-                            />
+                        <Grid item size={{ xs: 8 }}>
+                            <Grid container spacing={2}>
+                                <Grid item size={{ xs: 12 }}>
+                                    <TextField
+                                        fullWidth
+                                        label="Tên đầy đủ"
+                                        name="name"
+                                        required
+                                        onChange={handleChange}
+                                        sx={{
+                                            "& .MuiFormLabel-asterisk": {
+                                                color: "red",
+                                            },
+                                        }}
+                                    />
+                                </Grid>
+
+                                <Grid item size={{ xs: 12, sm: 6 }}>
+                                    <TextField
+                                        fullWidth
+                                        label="Năm sinh"
+                                        name="birth_year"
+                                        type="number"
+                                        onChange={handleChange}
+                                    />
+                                </Grid>
+
+                                <Grid item size={{ xs: 12, sm: 6 }}>
+                                    <TextField
+                                        fullWidth
+                                        label="Quốc tịch"
+                                        name="nationality"
+                                        onChange={handleChange}
+                                    />
+                                </Grid>
+
+                                <Grid item size={{ xs: 12 }}>
+                                    <TextField
+                                        fullWidth
+                                        label="Tiểu sử tác giả"
+                                        name="biography"
+                                        multiline
+                                        rows={5}
+                                        placeholder="Nhập tóm tắt về sự nghiệp, cuộc đời..."
+                                        onChange={handleChange}
+                                    />
+                                </Grid>
+                            </Grid>
                         </Grid>
 
-                        {/* Năm sinh */}
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                fullWidth
-                                label="Năm sinh"
-                                name="birth_year"
-                                type="number"
-                                variant="outlined"
-                                onChange={handleChange}
-                            />
-                        </Grid>
-
-                        {/* Quốc tịch */}
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                fullWidth
-                                label="Quốc tịch"
-                                name="nationality"
-                                variant="outlined"
-                                onChange={handleChange}
-                            />
-                        </Grid>
-
-                        {/* Tiểu sử */}
-                        <Grid item xs={12}>
-                            <TextField
-                                fullWidth
-                                label="Tiểu sử tác giả"
-                                name="biography"
-                                multiline
-                                rows={5}
-                                placeholder="Nhập tóm tắt về sự nghiệp, cuộc đời..."
-                                onChange={handleChange}
-                            />
-                        </Grid>
 
                         {/* Nút hành động */}
-                        <Grid item xs={12} display="flex" justifyContent="flex-end" gap={2} mt={2}>
+                        <Grid item size={{ xs: 12 }} display="flex" justifyContent="flex-end" gap={2} mt={2}>
                             <Button
-                                variant="text"
-                                color="inherit"
+                                startIcon={<ArrowBackIcon />}
+                                color="primary"
                                 onClick={() => navigate('/author')}
                             >
                                 Hủy bỏ
