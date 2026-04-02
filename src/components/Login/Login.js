@@ -6,12 +6,12 @@ import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
-const API_URL = 'https://jsonplaceholder.typicode.com'; // Mock API
-
 
 export const login = async (email, password) => {
+    console.log('Attempting to login with:', { email, password });
     try {
-        const response = await axios.post(`${API_URL}/users`, { email, password });
+        const response = await axios.post(`http://localhost:8008/api/auth/login`, { email, password });
+        console.log('API Response:', response.data); 
         return response.data;
     } catch (error) {
         throw error;
@@ -22,7 +22,7 @@ function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState('');
-    const { login } = useAuth();
+    // const { login } = useAuth();
     const navigate = useNavigate();
 
 
@@ -46,8 +46,16 @@ function Login() {
             try {
                 const userData = await login(email, password);
 
+                if(userData){
+                    const token = userData.access_token;
+                    localStorage.setItem('authToken', token);
+                    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
-                navigate('/home');
+                    localStorage.setItem('user', JSON.stringify(userData.user));
+
+                    navigate('/home');
+                }
+                
                 console.log('Login successful:', userData);
                 // Here you would typically store the user data and redirect
             } catch (error) {

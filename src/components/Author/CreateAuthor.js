@@ -19,10 +19,13 @@ function CreateAuthor() {
 
     const [authorData, setAuthorData] = useState({
         name: '',
-        birth_year: '',
-        nationality: '',
-        biography: '',
-        portrait: null
+        // birth_year: '',
+        // nationality: '',
+        // biography: '',
+        // portrait: null
+        email: '',
+        phone: '',
+        address: '',
     });
 
     // Xử lý thay đổi các trường text
@@ -46,16 +49,20 @@ function CreateAuthor() {
 
         const formData = new FormData();
         formData.append('name', authorData.name);
-        formData.append('birth_year', authorData.birth_year);
-        formData.append('nationality', authorData.nationality);
-        formData.append('biography', authorData.biography);
+        formData.append('email', authorData.email);
+        formData.append('phone', authorData.phone);
+        formData.append('address', authorData.address);
+
+        // formData.append('birth_year', authorData.birth_year);
+        // formData.append('nationality', authorData.nationality);
+        // formData.append('biography', authorData.biography);
         if (authorData.portrait) {
             formData.append('portrait', authorData.portrait);
         }
 
         try {
             // Thay URL bằng API thực tế của bạn
-            await axios.post('http://your-api-url.com/api/authors', formData, {
+            await axios.post('http://localhost:8008/api/customers', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
             alert("Tạo tác giả thành công!");
@@ -131,8 +138,8 @@ function CreateAuthor() {
                                     <TextField
                                         fullWidth
                                         label="Năm sinh"
-                                        name="birth_year"
-                                        type="number"
+                                        name="email"
+                                        type="email"
                                         onChange={handleChange}
                                     />
                                 </Grid>
@@ -141,7 +148,7 @@ function CreateAuthor() {
                                     <TextField
                                         fullWidth
                                         label="Quốc tịch"
-                                        name="nationality"
+                                        name="phone"
                                         onChange={handleChange}
                                     />
                                 </Grid>
@@ -150,7 +157,7 @@ function CreateAuthor() {
                                     <TextField
                                         fullWidth
                                         label="Tiểu sử tác giả"
-                                        name="biography"
+                                        name="address"
                                         multiline
                                         rows={5}
                                         placeholder="Nhập tóm tắt về sự nghiệp, cuộc đời..."

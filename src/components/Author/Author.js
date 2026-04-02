@@ -15,14 +15,14 @@ function Author() {
     const navigate = useNavigate();
     const [authors, setAuthors] = useState([]);
 
-    // const fetchAuthors = async () => {
-    //     const res = await axios.get('http://your-api-url.com/api/authors');
-    //     setAuthors(res.data);
-    // };
+    const fetchAuthors = async () => {
+        const res = await axios.get('http://localhost:8008/api/customers');
+        setAuthors(res.data);
+    };
 
-    // useEffect(() => {
-    //     fetchAuthors();
-    // }, []);
+    useEffect(() => {
+        fetchAuthors();
+    }, []);
 
     const handleUpdate = (id) => {
         // Implement update functionality here
@@ -57,7 +57,7 @@ function Author() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map((row) => (
+                        {authors.map((row) => (
                             <TableRow
                                 key={row.id}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -65,15 +65,15 @@ function Author() {
                                 <TableCell component="th" scope="row">
                                     {row.name}
                                 </TableCell>
-                                <TableCell align="right">{row.calories}</TableCell>
-                                <TableCell align="left">{row.fat}</TableCell>
-                                <TableCell align="right">{row.carbs}</TableCell>
+                                <TableCell align="right">{row.email}</TableCell>
+                                <TableCell align="left">{row.phone}</TableCell>
+                                <TableCell align="right">{row.address}</TableCell>
                                 <TableCell align="left">{row.protein}</TableCell>
                                 <TableCell align="center">
-                                    <Button onClick={() => handleUpdate(row.id)} variant="contained" size="small">
+                                    <Button onClick={() => handleUpdate(row.id)} variant="contained" size="small" color='warning'>
                                         Edit
                                     </Button>
-                                    <Button onClick={() => handleDelete(row.id)} variant="contained" size="small" style={{ marginLeft: 8 }}>
+                                    <Button onClick={() => handleDelete(row.id)} variant="contained" size="small" color='error' style={{ marginLeft: 8 }}>
                                         Delete
                                     </Button>
                                 </TableCell>
