@@ -16,6 +16,7 @@ function CreateAuthor() {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [preview, setPreview] = useState(null); // Để xem trước ảnh chân dung
+    const [file, setFile] = useState();
 
     const [authorData, setAuthorData] = useState({
         name: '',
@@ -38,7 +39,8 @@ function CreateAuthor() {
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-            setAuthorData({ ...authorData, portrait: file });
+            setFile(file);
+            // setAuthorData({ ...authorData, portrait: file });
             setPreview(URL.createObjectURL(file)); // Tạo đường dẫn tạm để hiển thị ảnh
         }
     };
@@ -52,13 +54,15 @@ function CreateAuthor() {
         formData.append('email', authorData.email);
         formData.append('phone', authorData.phone);
         formData.append('address', authorData.address);
-
+        formData.append('file', file);
+        console.log("FormData:", formData);
+        
         // formData.append('birth_year', authorData.birth_year);
         // formData.append('nationality', authorData.nationality);
         // formData.append('biography', authorData.biography);
-        if (authorData.portrait) {
-            formData.append('portrait', authorData.portrait);
-        }
+        // if (authorData.portrait) {
+        //     formData.append('portrait', authorData.portrait);
+        // }
 
         try {
             // Thay URL bằng API thực tế của bạn
@@ -113,7 +117,7 @@ function CreateAuthor() {
                                 size="small"
                             >
                                 Chọn Ảnh Chân Dung
-                                <input type="file" hidden accept="image/*" onChange={handleFileChange} />
+                                <input type="file" name="image" hidden accept="image/*" onChange={handleFileChange}/>
                             </Button>
                         </Grid>
 
@@ -137,7 +141,7 @@ function CreateAuthor() {
                                 <Grid item size={{ xs: 12, sm: 6 }}>
                                     <TextField
                                         fullWidth
-                                        label="Năm sinh"
+                                        label="Email"
                                         name="email"
                                         type="email"
                                         onChange={handleChange}
@@ -147,7 +151,7 @@ function CreateAuthor() {
                                 <Grid item size={{ xs: 12, sm: 6 }}>
                                     <TextField
                                         fullWidth
-                                        label="Quốc tịch"
+                                        label="SĐT"
                                         name="phone"
                                         onChange={handleChange}
                                     />
@@ -156,7 +160,7 @@ function CreateAuthor() {
                                 <Grid item size={{ xs: 12 }}>
                                     <TextField
                                         fullWidth
-                                        label="Tiểu sử tác giả"
+                                        label="Địa Chỉ"
                                         name="address"
                                         multiline
                                         rows={5}

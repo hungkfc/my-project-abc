@@ -32,7 +32,7 @@ function Author() {
     const handleDelete = async (id) => {
         if (window.confirm("Bạn có chắc chắn muốn xóa tác giả này không?")) {
             try {
-                await axios.delete(`http://your-api-url.com/api/authors/${id}`);
+                await axios.delete(`http://localhost:8008/api/customers/${id}`);
                 alert("Xóa thành công!");
             } catch (error) {
                 console.error("Lỗi khi xóa:", error);
@@ -67,8 +67,13 @@ function Author() {
                                 </TableCell>
                                 <TableCell align="right">{row.email}</TableCell>
                                 <TableCell align="left">{row.phone}</TableCell>
-                                <TableCell align="right">{row.address}</TableCell>
-                                <TableCell align="left">{row.protein}</TableCell>
+                                <TableCell align="right">
+                                    <img
+                                        src={row.file_url}
+                                        style={{ width: 80, height: 80, objectFit: 'cover', borderRadius: 8 }}
+                                    />
+                                </TableCell>
+                                <TableCell align="left">{row.address}</TableCell>
                                 <TableCell align="center">
                                     <Button onClick={() => handleUpdate(row.id)} variant="contained" size="small" color='warning'>
                                         Edit
