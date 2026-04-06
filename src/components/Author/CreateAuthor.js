@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     Container, Paper, Typography, TextField, Button,
     Grid, Box, Avatar, IconButton, CircularProgress
@@ -12,18 +12,18 @@ import {
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
+
 function CreateAuthor() {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
+    const [optionsLoading, setOptionsLoading] = useState(false);
     const [preview, setPreview] = useState(null); // Để xem trước ảnh chân dung
     const [file, setFile] = useState();
 
     const [authorData, setAuthorData] = useState({
         name: '',
-        // birth_year: '',
-        // nationality: '',
-        // biography: '',
-        // portrait: null
         email: '',
         phone: '',
         address: '',
@@ -55,14 +55,19 @@ function CreateAuthor() {
         formData.append('phone', authorData.phone);
         formData.append('address', authorData.address);
         formData.append('file', file);
+
+        const customerOrders = (selectedOptions || []).map(option => ({
+            order_id: option.value,
+        }));
+        customerOrders.forEach((order, index) => {
+            Object.entries(order).forEach(([field, value]) => {
+                formData.append(`customer_orders[${index}][${field}]`, value);
+            });
+        });
+
         console.log("FormData:", formData);
-        
-        // formData.append('birth_year', authorData.birth_year);
-        // formData.append('nationality', authorData.nationality);
-        // formData.append('biography', authorData.biography);
-        // if (authorData.portrait) {
-        //     formData.append('portrait', authorData.portrait);
-        // }
+        console.log("Selected Options:", selectedOptions);
+        console.log("customerOrders:", customerOrders);
 
         try {
             // Thay URL bằng API thực tế của bạn
@@ -78,6 +83,35 @@ function CreateAuthor() {
             setLoading(false);
         }
     };
+
+    const [selectedOptions, setSelectedOptions] = useState([]);
+    const [options, setOptions] = useState([]);
+    
+    const handleChangeSelect = (selectedOption) => {
+        setSelectedOptions(selectedOption);
+    }
+    
+    const fetchOptions = async () => {
+        setOptionsLoading(true);
+        try {
+            const orders = await axios.get('http://localhost:8008/api/orders');
+            console.log("Orders:", orders.data);
+            const formattedOptions = orders.data.map(order => ({
+                value: order.id,
+                label: order.name
+            }));
+            setOptions(formattedOptions);
+        } catch (error) {
+            console.error("Lỗi khi fetch orders:", error);
+        } finally {
+            setOptionsLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchOptions();
+    }, []);
+
 
     return (
         <Container maxWidth="md" sx={{ mt: 5, mb: 5 }}>
@@ -166,6 +200,18 @@ function CreateAuthor() {
                                         rows={5}
                                         placeholder="Nhập tóm tắt về sự nghiệp, cuộc đời..."
                                         onChange={handleChange}
+                                    />
+                                </Grid>
+                                <Grid item size={{ xs: 12 }}>
+                                    <Select
+                                        closeMenuOnSelect={false}
+                                        components={makeAnimated()}
+                                        isMulti
+                                        options={options}
+                                        value={selectedOptions}
+                                        onChange={handleChangeSelect}
+                                        isLoading={optionsLoading}
+                                        placeholder="Chọn đơn hàng..."
                                     />
                                 </Grid>
                             </Grid>
