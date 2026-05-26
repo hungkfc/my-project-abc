@@ -22,31 +22,26 @@ function UpdateAuthor() {
 
     const [authorData, setAuthorData] = useState({
         name: '',
-        birth_year: '',
-        nationality: '',
-        biography: '',
-        portrait: null,
-        current_portrait_url: '' // Để hiển thị ảnh cũ từ server
+        email: '',
+        phone: '',
     });
 
     // 1. Lấy dữ liệu tác giả hiện tại
     useEffect(() => {
         const fetchAuthor = async () => {
             try {
-                const response = await axios.get(`http://your-api-url.com/api/authors/${id}`);
+                const response = await axios.get(`http://localhost:8008/api/customers/${id}`);
+                console.log("API Response:", response.data); // Kiểm tra dữ liệu trả về
                 const data = response.data;
                 setAuthorData({
                     name: data.name || '',
-                    birth_year: data.birth_year || '',
-                    nationality: data.nationality || '',
-                    biography: data.biography || '',
-                    portrait: null,
-                    current_portrait_url: data.portrait_url // Đường dẫn ảnh từ Backend
+                    email: data.email || '',
+                    phone: data.phone || '',
                 });
                 setFetching(false);
             } catch (error) {
                 console.error("Lỗi lấy thông tin:", error);
-                alert("Không tìm thấy tác giả!");
+                alert("Không tìm thấy khách hàng!");
                 navigate('/author');
             }
         };
@@ -55,39 +50,29 @@ function UpdateAuthor() {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+        console.log('name', name);
+        console.log('value', value);
+        
         setAuthorData({ ...authorData, [name]: value });
     };
 
-    const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            setAuthorData({ ...authorData, portrait: file });
-            setPreview(URL.createObjectURL(file));
-        }
-    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
+console.log('authorData', authorData);
 
         const formData = new FormData();
         formData.append('name', authorData.name);
-        formData.append('birth_year', authorData.birth_year);
-        formData.append('nationality', authorData.nationality);
-        formData.append('biography', authorData.biography);
+        formData.append('email', authorData.email);
+        formData.append('phone', authorData.phone);
 
-        // Chỉ gửi ảnh nếu người dùng chọn ảnh mới
-        if (authorData.portrait) {
-            formData.append('portrait', authorData.portrait);
-        }
-
-        // Giả định dùng Laravel: Cần _method PUT để xử lý FormData
-        formData.append('_method', 'PUT');
+        console.log("formData:", formData); // Kiểm tra dữ liệu gửi đi
+        // // Giả định dùng Laravel: Cần _method PUT để xử lý FormData
+        // formData.append('_method', 'PUT');
 
         try {
-            await axios.post(`http://your-api-url.com/api/authors/${id}`, formData, {
-                headers: { 'Content-Type': 'multipart/form-data' }
-            });
+            await axios.put(`http://localhost:8008/api/update_customers/${id}`, formData);
             alert("Cập nhật thành công!");
             navigate('/author');
         } catch (error) {
@@ -115,7 +100,7 @@ function UpdateAuthor() {
                             <ArrowBackIcon />
                         </IconButton>
                         <Typography variant="h5" fontWeight="800" color="secondary">
-                            Chỉnh Sửa Tác Giả
+                            Chỉnh Sửa Khách Hàng
                         </Typography>
                     </Box>
                     <Typography variant="caption" color="textSecondary">ID: {id}</Typography>
@@ -125,28 +110,6 @@ function UpdateAuthor() {
 
                 <form onSubmit={handleSubmit}>
                     <Grid container spacing={4}>
-
-                        {/* Ảnh chân dung */}
-                        <Grid item xs={12} md={4} display="flex" flexDirection="column" alignItems="center">
-                            <Typography variant="subtitle2" gutterBottom color="textSecondary">
-                                Ảnh Chân Dung
-                            </Typography>
-                            <Avatar
-                                src={preview || authorData.current_portrait_url}
-                                sx={{ width: 160, height: 160, mb: 2, boxShadow: 3, border: '4px solid #fff' }}
-                            />
-                            <Button
-                                variant="contained"
-                                component="label"
-                                startIcon={<PhotoCamera />}
-                                size="small"
-                                color="secondary"
-                            >
-                                Đổi Ảnh
-                                <input type="file" hidden accept="image/*" onChange={handleFileChange} />
-                            </Button>
-                        </Grid>
-
                         {/* Thông tin Text */}
                         <Grid item xs={12} md={8}>
                             <Grid container spacing={2}>
@@ -163,30 +126,19 @@ function UpdateAuthor() {
                                 <Grid item xs={6}>
                                     <TextField
                                         fullWidth
-                                        label="Năm sinh"
-                                        name="birth_year"
-                                        type="number"
-                                        value={authorData.birth_year}
+                                        label="Email"
+                                        name="email"
+                                        value={authorData.email}
                                         onChange={handleChange}
+                                        required
                                     />
                                 </Grid>
                                 <Grid item xs={6}>
                                     <TextField
                                         fullWidth
-                                        label="Quốc tịch"
-                                        name="nationality"
-                                        value={authorData.nationality}
-                                        onChange={handleChange}
-                                    />
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <TextField
-                                        fullWidth
-                                        label="Tiểu sử"
-                                        name="biography"
-                                        multiline
-                                        rows={6}
-                                        value={authorData.biography}
+                                        label="Số điện thoại"
+                                        name="phone"
+                                        value={authorData.phone}
                                         onChange={handleChange}
                                     />
                                 </Grid>
@@ -197,14 +149,6 @@ function UpdateAuthor() {
                         <Grid item xs={12}>
                             <Divider sx={{ my: 2 }} />
                             <Box display="flex" justifyContent="flex-end" gap={2}>
-                                <Button
-                                    variant="outlined"
-                                    color="error"
-                                    startIcon={<DeleteIcon />}
-                                    onClick={() => {/* Gọi hàm delete đã viết ở trên */ }}
-                                >
-                                    Xóa Tác Giả
-                                </Button>
                                 <Button
                                     type="submit"
                                     variant="contained"

@@ -27,7 +27,7 @@ function Author() {
     const handleUpdate = (id) => {
         // Implement update functionality here
         console.log(`Update author with id: ${id}`);
-        navigate(`/author/update?id=${id}`)
+        navigate(`/author/update/${id}`)
     }
     const handleDelete = async (id) => {
         if (window.confirm("Bạn có chắc chắn muốn xóa tác giả này không?")) {
@@ -36,23 +36,21 @@ function Author() {
                 alert("Xóa thành công!");
             } catch (error) {
                 console.error("Lỗi khi xóa:", error);
-                alert("Không thể xóa tác giả này.");
+                alert("Không thể xóa khách hàng này.");
             }
         }
     };
     return (
         <div>
-            <h1>Author List</h1>
-            <Button href='/author/create' variant="contained">Create Author</Button>
+            <h1>Customer List</h1>
+            <Button href='/author/create' variant="contained">Create Customer</Button>
             <TableContainer component={Paper} sx={{ mt: 2 }}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead sx={{ background: '#f5f5f5' }}>
                         <TableRow>
-                            <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Tên tác giả</TableCell>
-                            <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Năm sinh</TableCell>
-                            <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Quốc tịch</TableCell>
-                            <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Ảnh</TableCell>
-                            <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Tiểu sử</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Tên khách hàng</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Email</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>SĐT</TableCell>
                             <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Actions</TableCell>
                         </TableRow>
                     </TableHead>
@@ -67,13 +65,6 @@ function Author() {
                                 </TableCell>
                                 <TableCell align="right">{row.email}</TableCell>
                                 <TableCell align="left">{row.phone}</TableCell>
-                                <TableCell align="right">
-                                    <img
-                                        src={row.file_url}
-                                        style={{ width: 80, height: 80, objectFit: 'cover', borderRadius: 8 }}
-                                    />
-                                </TableCell>
-                                <TableCell align="left">{row.address}</TableCell>
                                 <TableCell align="center">
                                     <Button onClick={() => handleUpdate(row.id)} variant="contained" size="small" color='warning'>
                                         Edit

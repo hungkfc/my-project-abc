@@ -26,7 +26,6 @@ function CreateAuthor() {
         name: '',
         email: '',
         phone: '',
-        address: '',
     });
 
     // Xử lý thay đổi các trường text
@@ -53,21 +52,6 @@ function CreateAuthor() {
         formData.append('name', authorData.name);
         formData.append('email', authorData.email);
         formData.append('phone', authorData.phone);
-        formData.append('address', authorData.address);
-        formData.append('file', file);
-
-        const customerOrders = (selectedOptions || []).map(option => ({
-            order_id: option.value,
-        }));
-        customerOrders.forEach((order, index) => {
-            Object.entries(order).forEach(([field, value]) => {
-                formData.append(`customer_orders[${index}][${field}]`, value);
-            });
-        });
-
-        console.log("FormData:", formData);
-        console.log("Selected Options:", selectedOptions);
-        console.log("customerOrders:", customerOrders);
 
         try {
             // Thay URL bằng API thực tế của bạn
@@ -84,35 +68,6 @@ function CreateAuthor() {
         }
     };
 
-    const [selectedOptions, setSelectedOptions] = useState([]);
-    const [options, setOptions] = useState([]);
-    
-    const handleChangeSelect = (selectedOption) => {
-        setSelectedOptions(selectedOption);
-    }
-    
-    const fetchOptions = async () => {
-        setOptionsLoading(true);
-        try {
-            const orders = await axios.get('http://localhost:8008/api/orders');
-            console.log("Orders:", orders.data);
-            const formattedOptions = orders.data.map(order => ({
-                value: order.id,
-                label: order.name
-            }));
-            setOptions(formattedOptions);
-        } catch (error) {
-            console.error("Lỗi khi fetch orders:", error);
-        } finally {
-            setOptionsLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        fetchOptions();
-    }, []);
-
-
     return (
         <Container maxWidth="md" sx={{ mt: 5, mb: 5 }}>
             <Paper elevation={4} sx={{ p: { xs: 2, md: 5 }, borderRadius: 3 }}>
@@ -123,38 +78,12 @@ function CreateAuthor() {
                         <ArrowBackIcon />
                     </IconButton>
                     <Typography variant="h4" component="h1" fontWeight="bold" color="primary">
-                        Thêm Tác Giả Mới
+                        Thêm khách hàng Mới
                     </Typography>
                 </Box>
 
                 <form onSubmit={handleSubmit}>
                     <Grid container spacing={3}>
-                        <Grid item size={{ xs: 4 }} display="flex" flexDirection="column" alignItems="center" mb={2}>
-                            <Box position="relative">
-                                <Avatar
-                                    src={preview}
-                                    sx={{ width: 120, height: 120, mb: 2, border: '2px solid #1976d2' }}
-                                />
-                                {preview && (
-                                    <IconButton
-                                        size="small"
-                                        sx={{ position: 'absolute', top: 0, right: -10, bg: 'white', shadow: 1 }}
-                                        onClick={() => { setPreview(null); setAuthorData({ ...authorData, portrait: null }) }}
-                                    >
-                                        <ClearIcon color="error" fontSize="small" />
-                                    </IconButton>
-                                )}
-                            </Box>
-                            <Button
-                                component="label"
-                                startIcon={<PhotoCamera />}
-                                size="small"
-                            >
-                                Chọn Ảnh Chân Dung
-                                <input type="file" name="image" hidden accept="image/*" onChange={handleFileChange}/>
-                            </Button>
-                        </Grid>
-
                         <Grid item size={{ xs: 8 }}>
                             <Grid container spacing={2}>
                                 <Grid item size={{ xs: 12 }}>
@@ -190,30 +119,6 @@ function CreateAuthor() {
                                         onChange={handleChange}
                                     />
                                 </Grid>
-
-                                <Grid item size={{ xs: 12 }}>
-                                    <TextField
-                                        fullWidth
-                                        label="Địa Chỉ"
-                                        name="address"
-                                        multiline
-                                        rows={5}
-                                        placeholder="Nhập tóm tắt về sự nghiệp, cuộc đời..."
-                                        onChange={handleChange}
-                                    />
-                                </Grid>
-                                <Grid item size={{ xs: 12 }}>
-                                    <Select
-                                        closeMenuOnSelect={false}
-                                        components={makeAnimated()}
-                                        isMulti
-                                        options={options}
-                                        value={selectedOptions}
-                                        onChange={handleChangeSelect}
-                                        isLoading={optionsLoading}
-                                        placeholder="Chọn đơn hàng..."
-                                    />
-                                </Grid>
                             </Grid>
                         </Grid>
 
@@ -235,7 +140,7 @@ function CreateAuthor() {
                                 disabled={loading}
                                 sx={{ px: 4 }}
                             >
-                                {loading ? 'Đang lưu...' : 'Lưu Tác Giả'}
+                                {loading ? 'Đang lưu...' : 'Lưu'}
                             </Button>
                         </Grid>
 

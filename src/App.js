@@ -29,10 +29,10 @@ function App() {
                 <Routes>
                   <Route path="/author" element={<Author />} />
                   <Route path="/author/create" element={<CreateAuthor />} />
-                  <Route path="/author/update" element={<UpdateAuthor />} />
+                  <Route path="/author/update/:id" element={<UpdateAuthor />} />
                   <Route path="/book" element={<Book />} />
                   <Route path="/book/create" element={<CreateBook />} />
-                  <Route path="/book/update" element={<UpdateBook />} />
+                  <Route path="/book/update/:id" element={<UpdateBook />} />
                 </Routes>
               </>
             }>

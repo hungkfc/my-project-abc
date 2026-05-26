@@ -53,7 +53,7 @@ function Login() {
 
                     localStorage.setItem('user', JSON.stringify(userData.user));
 
-                    navigate('/home');
+                    navigate('/author');
                 }
                 
                 console.log('Login successful:', userData);
