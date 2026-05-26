@@ -52,7 +52,7 @@ function UpdateAuthor() {
         const { name, value } = e.target;
         console.log('name', name);
         console.log('value', value);
-        
+
         setAuthorData({ ...authorData, [name]: value });
     };
 
@@ -60,22 +60,26 @@ function UpdateAuthor() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-console.log('authorData', authorData);
 
-        const formData = new FormData();
-        formData.append('name', authorData.name);
-        formData.append('email', authorData.email);
-        formData.append('phone', authorData.phone);
+        // const formData = new FormData();
+        // formData.append('name', authorData.name);
+        // formData.append('email', authorData.email);
+        // formData.append('phone', authorData.phone);
 
-        console.log("formData:", formData); // Kiểm tra dữ liệu gửi đi
+        // console.log("formData:", formData); // Kiểm tra dữ liệu gửi đi
         // // Giả định dùng Laravel: Cần _method PUT để xử lý FormData
         // formData.append('_method', 'PUT');
 
         try {
-            await axios.put(`http://localhost:8008/api/update_customers/${id}`, formData);
+            await axios.put(`http://localhost:8008/api/customers/${id}`, {
+                name: authorData.name,
+                email: authorData.email,
+                phone: authorData.phone,
+            });
             alert("Cập nhật thành công!");
             navigate('/author');
         } catch (error) {
+            console.error("Error:", error.response?.data || error.message);
             alert("Cập nhật thất bại!");
         } finally {
             setLoading(false);
