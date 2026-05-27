@@ -30,7 +30,7 @@ function UpdateAuthor() {
     useEffect(() => {
         const fetchAuthor = async () => {
             try {
-                const response = await axios.get(`http://localhost:8008/api/customers/${id}`);
+                const response = await axios.get(`http://localhost:8008/api/authors/${id}`);
                 console.log("API Response:", response.data); // Kiểm tra dữ liệu trả về
                 const data = response.data;
                 setAuthorData({
@@ -41,7 +41,7 @@ function UpdateAuthor() {
                 setFetching(false);
             } catch (error) {
                 console.error("Lỗi lấy thông tin:", error);
-                alert("Không tìm thấy khách hàng!");
+                alert("Không tìm thấy tác giả!");
                 navigate('/author');
             }
         };
@@ -71,7 +71,7 @@ function UpdateAuthor() {
         // formData.append('_method', 'PUT');
 
         try {
-            await axios.put(`http://localhost:8008/api/customers/${id}`, {
+            await axios.put(`http://localhost:8008/api/authors/${id}`, {
                 name: authorData.name,
                 email: authorData.email,
                 phone: authorData.phone,
@@ -104,7 +104,7 @@ function UpdateAuthor() {
                             <ArrowBackIcon />
                         </IconButton>
                         <Typography variant="h5" fontWeight="800" color="secondary">
-                            Chỉnh Sửa Khách Hàng
+                            Chỉnh Sửa Tác Giả
                         </Typography>
                     </Box>
                     <Typography variant="caption" color="textSecondary">ID: {id}</Typography>

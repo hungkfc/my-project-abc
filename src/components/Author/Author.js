@@ -16,7 +16,7 @@ function Author() {
     const [authors, setAuthors] = useState([]);
 
     const fetchAuthors = async () => {
-        const res = await axios.get('http://localhost:8008/api/customers');
+        const res = await axios.get('http://localhost:8008/api/authors');
         setAuthors(res.data);
     };
 
@@ -32,11 +32,11 @@ function Author() {
     const handleDelete = async (id) => {
         if (window.confirm("Bạn có chắc chắn muốn xóa tác giả này không?")) {
             try {
-                await axios.delete(`http://localhost:8008/api/customers/${id}`);
+                await axios.delete(`http://localhost:8008/api/authors/${id}`);
                 alert("Xóa thành công!");
             } catch (error) {
                 console.error("Lỗi khi xóa:", error);
-                alert("Không thể xóa khách hàng này.");
+                alert("Không thể xóa tác giả này.");
             }
         }
     };

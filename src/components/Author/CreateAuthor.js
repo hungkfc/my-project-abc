@@ -55,7 +55,7 @@ function CreateAuthor() {
 
         try {
             // Thay URL bằng API thực tế của bạn
-            await axios.post('http://localhost:8008/api/customers', formData, {
+            await axios.post('http://localhost:8008/api/authors', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
             alert("Tạo tác giả thành công!");
@@ -78,7 +78,7 @@ function CreateAuthor() {
                         <ArrowBackIcon />
                     </IconButton>
                     <Typography variant="h4" component="h1" fontWeight="bold" color="primary">
-                        Thêm khách hàng Mới
+                        Thêm tác giả Mới
                     </Typography>
                 </Box>
 
