@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, TextField } from '@mui/material';
+
 
 const rows = [
     { id: 1, name: 'Frozen yoghurt', calories: 259, fat: 6.0, carbs: 24, protein: 4.0 },
@@ -59,11 +60,11 @@ function Author() {
         <div>
             <h1>Author List</h1>
             <Button href='/author/create' variant="contained">Create Author</Button>
-            <input
-                type="text"
-                placeholder="Search by name"
+            <TextField
+                label="Search by name"
                 value={searchName}
                 onChange={(e) => setSearchName(e.target.value)}
+                variant="outlined"
             />
             <TableContainer component={Paper} sx={{ mt: 2 }}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
