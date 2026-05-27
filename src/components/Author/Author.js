@@ -40,15 +40,36 @@ function Author() {
             }
         }
     };
+
+    const [searchName, setSearchName] = useState();
+    useEffect(() => {
+        const fetchAuth = async () => {
+            try {
+                const res = await axios.get(`http://localhost:8008/api/authors?name=${searchName || ''}`);
+                setAuthors(res.data);
+            }
+            catch (error) {
+                console.error("Lỗi khi tìm kiếm:", error);
+                alert("Không thể tìm kiếm tác giả.");
+            }
+        };
+        fetchAuth();
+    }, [searchName]);
     return (
         <div>
-            <h1>Customer List</h1>
-            <Button href='/author/create' variant="contained">Create Customer</Button>
+            <h1>Author List</h1>
+            <Button href='/author/create' variant="contained">Create Author</Button>
+            <input
+                type="text"
+                placeholder="Search by name"
+                value={searchName}
+                onChange={(e) => setSearchName(e.target.value)}
+            />
             <TableContainer component={Paper} sx={{ mt: 2 }}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead sx={{ background: '#f5f5f5' }}>
                         <TableRow>
-                            <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Tên khách hàng</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Tên tác giả</TableCell>
                             <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Email</TableCell>
                             <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>SĐT</TableCell>
                             <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Actions</TableCell>
